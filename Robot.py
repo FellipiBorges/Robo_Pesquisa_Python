@@ -3,29 +3,43 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 import time
 import openpyxl
-import requests
-from lxml import html
+
+options = webdriver.ChromeOptions()
+options.add_experimental_option("detach", True)
 
 servico = Service(ChromeDriverManager().install())
 navegador = webdriver.Chrome(service=servico)
-navegador.get("#Aqui vai a URL")
-navegador.find_element('xpath','//*[@id="user_email"]').send_keys("#E-mail")
-navegador.find_element('xpath','//*[@id="user_password"]').send_keys("#Password")
-navegador.find_element('xpath','//*[@id="sign-in-submit-button"]').click()
+navegador.get(
+    "*Url")
 
+time.sleep(5)
 
-workbook = openpyxl.load_workbook('C:\\Users\\fellipi.borges\\PycharmProjects\\Robot\\Ticket.xlsx') #Uma planilha dentro da pasta do projeto que contem um ID a ser pesquisado na URL
+navegador.find_element('xpath', '//*[@id="user_email"]').send_keys("*email")
+navegador.find_element('xpath', '//*[@id="user_password"]').send_keys("*password")
+
+time.sleep(5)
+
+navegador.find_element('xpath', '//*[@id="sign-in-submit-button"]').click()
+
+time.sleep(5)
+
+#Uso operadores para chamar minha planilha Excel
+workbook = openpyxl.load_workbook('C:\\Users\\fellipi.borges\\PycharmProjects\\Robot\\Ticket.xlsx')
 sheet = workbook.active
 celula = sheet['A2'].value
-i = str(celula) #Converto o dado de Int para Str para que possa ser concatenado posteriormente
-print((i)) #Aqui eu imprimo o tipo de dado no qual eu estou trabalhando(só pra ter certeza que foi)
+i = str(celula)  # Converto o dado de Int para Str para que possa ser concatenado posteriormente
+print(i)  # Aqui eu imprimo o tipo de dado no qual eu estou trabalhando(só pra ter certeza que foi)
 
-navegador.get("URL concatenada com o ID da planilha" + i) #Concateno o link do site com o 'Ticket'
+navegador.get("URL Concatenada" + i)  # Concateno o link do site com o 'Ticket'
 
+time.sleep(5)
 
-book.save('Ticket.xlsx')
+sheet = workbook.active
+celula = sheet['B2'].value
+j = navegador.find_element('xpath', '//*[@id="ember3058"]/div[1]/div/div/div').text
+print(j)
 
+time.sleep(900)
+#workbook.save('Ticket.xlsx')
 
-
-
-
+time.sleep(5)
